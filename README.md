@@ -2,7 +2,8 @@
 
 # Hiven Status Header
 
-This small project let's you display your status on your Hiven Header image using the Lanyard API.
+This small project let's you display your status on your Hiven Header image using the Lanyard API. Make sure you are in [Lanyard Discord Server](https://discord.gg/UrXF2cfJ7F).
+
 
 **NOTE: Currently only supports Spotify. More coming soon.**
 
