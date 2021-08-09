@@ -5,6 +5,30 @@ const { createImage, createBlank } = require("./createImage");
 
 const connection = new WebSocket("wss://api.lanyard.rest/socket");
 
+function patchHiven(img) {
+  fetch("https://api.hiven.io/v1/users/@me", {
+    method: "PATCH",
+    body: JSON.stringify({ header: `${img}` }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: process.env.TOKEN,
+    },
+  });
+}
+
+function patchHivenAndQuit(img) {
+  fetch("https://api.hiven.io/v1/users/@me", {
+    method: "PATCH",
+    body: JSON.stringify({ header: `${img}` }),
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: process.env.TOKEN,
+    },
+  }).then((res) => {
+    process.exit();
+  });
+}
+
 connection.onopen = (event) => {
   connection.send(
     JSON.stringify({
@@ -28,35 +52,35 @@ connection.onmessage = ({ data }) => {
       const data = d.d;
       if (data.spotify) {
         console.log(`Listening to ${data.spotify.song}`);
-
         createImage(
           data.spotify.song,
           data.spotify.artist.split("; ")[0],
-          (img) => {
-            fetch("https://api.hiven.io/v1/users/@me", {
-              method: "PATCH",
-              body: JSON.stringify({ header: `${img}` }),
-              headers: {
-                "Content-Type": "application/json",
-                Authorization: process.env.TOKEN,
-              },
-            });
-          }
+          patchHiven
         );
       } else {
         console.log(`Not Listening anything.`);
 
-        createBlank((img) => {
-          fetch("https://api.hiven.io/v1/users/@me", {
-            method: "PATCH",
-            body: JSON.stringify({ header: `${img}` }),
-            headers: {
-              "Content-Type": "application/json",
-              Authorization: process.env.TOKEN,
-            },
-          });
-        });
+        createBlank(patchHiven);
       }
       break;
   }
 };
+
+[
+  "SIGHUP",
+  "SIGINT",
+  "SIGQUIT",
+  "SIGILL",
+  "SIGTRAP",
+  "SIGABRT",
+  "SIGBUS",
+  "SIGFPE",
+  "SIGUSR1",
+  "SIGSEGV",
+  "SIGUSR2",
+  "SIGTERM",
+].forEach((sig) => {
+  process.on(sig, async () => {
+    createBlank(patchHivenAndQuit);
+  });
+});
