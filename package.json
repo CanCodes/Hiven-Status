@@ -12,6 +12,9 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
-  "license": "ISC"
+  "author": {
+    "name": "CanCodes",
+    "url": "https://github.com/CanCodes"
+  },
+  "license": "GPL-3.0-or-later"
 }
