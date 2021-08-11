@@ -18,6 +18,12 @@
     "name": "CanCodes",
     "url": "https://github.com/CanCodes"
   },
+  "contributors": [
+    {
+      "name": "TheHackerCoding",
+      "email": "thehackercoding@gmail.com"
+    } 
+  ],
   "license": "GPL-3.0-or-later",
   "devDependencies": {
     "@types/node": "^16.6.0",
