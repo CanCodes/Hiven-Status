@@ -1,13 +1,12 @@
 require("dotenv").config();
-const fetch = require("node-fetch");
-const WebSocket = require("ws");
-const { createImage, createBlank } = require("./createImage");
+import axios from "axios";
+import WebSocket from "ws";
+import { createImage, createBlank } from "./createImage";
 
 const connection = new WebSocket("wss://api.lanyard.rest/socket");
 
-function patchHiven(img) {
-  fetch("https://api.hiven.io/v1/users/@me", {
-    method: "PATCH",
+function patchHiven(img: string) {
+  axios.patch("https://api.hiven.io/v1/users/@me", {
     body: JSON.stringify({ header: `${img}` }),
     headers: {
       "Content-Type": "application/json",
@@ -16,20 +15,19 @@ function patchHiven(img) {
   });
 }
 
-function patchHivenAndQuit(img) {
-  fetch("https://api.hiven.io/v1/users/@me", {
-    method: "PATCH",
+function patchHivenAndQuit(img: string) {
+  axios.patch("https://api.hiven.io/v1/users/@me", {
     body: JSON.stringify({ header: `${img}` }),
     headers: {
       "Content-Type": "application/json",
       Authorization: process.env.TOKEN,
     },
-  }).then((res) => {
+  }).then((_res) => {
     process.exit();
   });
 }
 
-connection.onopen = (event) => {
+connection.onopen = (_event) => {
   connection.send(
     JSON.stringify({
       op: 2,
@@ -46,7 +44,7 @@ connection.onopen = (event) => {
 };
 
 connection.onmessage = ({ data }) => {
-  const d = JSON.parse(data);
+  const d = JSON.parse(JSON.stringify(data));
   switch (d.t) {
     case "PRESENCE_UPDATE":
       const data = d.d;

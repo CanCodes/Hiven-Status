@@ -1,4 +1,4 @@
-![img](./src/code_assets/HivenSpotify.png)
+![img](./assets/code/HivenSpotify.png)
 
 # Hiven Status Header
 
@@ -11,8 +11,9 @@ This small project let's you display your status on your Hiven Header image usin
 
 1. Create a `.env` file using the `.example.env`
 2. Install node packages.
-3. Run the start script using your prefered package manager (yarn/npm)
-4. You can change the background from `src/user_assets/background.png`. It would be better if the image is 1000x500, though I had no issues with 1920x1080.
+3. Build it.
+4. Run the start script using your prefered package manager (yarn/npm)
+5. You can change the background from `assets/user/background.png`. It would be better if the image is 1000x500, though I had no issues with 1920x1080.
 
 ## Troubleshooting
 

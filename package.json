@@ -4,17 +4,24 @@
   "description": "",
   "main": "app.js",
   "dependencies": {
+    "axios": "^0.21.1",
     "canvas": "^2.8.0",
     "dotenv": "^10.0.0",
-    "node-fetch": "^2.6.1",
     "ws": "^8.0.0"
   },
   "scripts": {
-    "start": "node app.js"
+    "dev": "tsc -w",
+    "build": "tsc",
+    "start": "node dist/app.js"
   },
   "author": {
     "name": "CanCodes",
     "url": "https://github.com/CanCodes"
   },
-  "license": "GPL-3.0-or-later"
+  "license": "GPL-3.0-or-later",
+  "devDependencies": {
+    "@types/node": "^16.6.0",
+    "@types/ws": "^7.4.7",
+    "typescript": "^4.3.5"
+  }
 }
