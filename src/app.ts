@@ -2,36 +2,47 @@ require("dotenv").config();
 import axios from "axios";
 import WebSocket from "ws";
 import { createImage, createBlank } from "./createImage";
-
 const connection = new WebSocket("wss://api.lanyard.rest/socket");
 
 function patchHiven(img: string) {
-  axios.patch("https://api.hiven.io/v1/users/@me", {
-    body: JSON.stringify({ header: `${img}` }),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: process.env.TOKEN,
-    },
-  });
+  axios
+    .patch(
+      "https://api.hiven.io/v1/users/@me",
+      { header: `${img}` },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.env.TOKEN,
+        },
+      }
+    )
+    .then((res) => {
+      console.log(res.status);
+    });
 }
 
 function patchHivenAndQuit(img: string) {
-  axios.patch("https://api.hiven.io/v1/users/@me", {
-    body: JSON.stringify({ header: `${img}` }),
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: process.env.TOKEN,
-    },
-  }).then((_res) => {
-    process.exit();
-  });
+  axios
+    .patch(
+      "https://api.hiven.io/v1/users/@me",
+      { header: `${img}` },
+      {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: process.env.TOKEN,
+        },
+      }
+    )
+    .then((_res) => {
+      process.exit();
+    });
 }
 
 connection.onopen = (_event) => {
   connection.send(
     JSON.stringify({
       op: 2,
-      d: { subscribe_to_ids: [process.env.USER_ID] },
+      d: { subscribe_to_id: process.env.USER_ID },
     })
   );
   setInterval(() => {
@@ -44,10 +55,12 @@ connection.onopen = (_event) => {
 };
 
 connection.onmessage = ({ data }) => {
-  const d = JSON.parse(JSON.stringify(data));
+  const d = JSON.parse(data);
   switch (d.t) {
     case "PRESENCE_UPDATE":
+    case "INIT_STATE":
       const data = d.d;
+
       if (data.spotify) {
         console.log(`Listening to ${data.spotify.song}`);
         createImage(

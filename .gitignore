@@ -1,5 +1,5 @@
 .DS_Store
-/src/user_assets/background.png
+/assets/user/background.png
 # Logs
 logs
 *.log

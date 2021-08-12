@@ -1,26 +1,31 @@
 require("dotenv").config();
 import { createCanvas, registerFont, loadImage } from "canvas";
+import path from "path";
 
 interface Callback {
-  (buffer: string): void
+  (buffer: string): void;
 }
 
 async function createImage(songName: string, songArtist: string, cb: Callback) {
   const canvas = createCanvas(1000, 500);
   const ctx = canvas.getContext("2d");
-  registerFont("../assets/code/Roboto-Regular.ttf", {
+  registerFont(path.join(process.cwd(), "assets/code/Roboto-Regular.ttf"), {
     family: "Roboto",
   });
-  registerFont("../assets/code/Roboto-Medium.ttf", {
+  registerFont(path.join(process.cwd(), "assets/code/Roboto-Medium.ttf"), {
     family: "RobotoM",
   });
   ctx.imageSmoothingEnabled = false;
 
-  const background = await loadImage("../assets/user/background.png");
+  const background = await loadImage(
+    path.join(process.cwd(), "assets/user/background.png")
+  );
   ctx.drawImage(background, 0, 0);
 
   // Draw StatusBar
-  const statusBar = await loadImage("../assets/code/StatusBar.png");
+  const statusBar = await loadImage(
+    path.join(process.cwd(), "assets/code/StatusBar.png")
+  );
   ctx.drawImage(statusBar, 55, 89);
   // Write Status
   ctx.font = '24px "RobotoM"';
@@ -44,7 +49,9 @@ async function createImage(songName: string, songArtist: string, cb: Callback) {
 }
 
 async function createBlank(cb: Callback) {
-  const background = await loadImage("../assets/user/background.png");
+  const background = await loadImage(
+    path.join(process.cwd(), "assets/user/background.png")
+  );
   const canvas = createCanvas(
     background.naturalWidth,
     background.naturalHeight
@@ -55,7 +62,4 @@ async function createBlank(cb: Callback) {
   cb(buffer);
 }
 
-export {
-  createImage,
-  createBlank,
-};
+export { createImage, createBlank };
