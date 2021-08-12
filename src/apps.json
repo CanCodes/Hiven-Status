@@ -1,0 +1,14 @@
+{
+  "Spotify": {
+    "topText": "Listening To:",
+    "midText": "{name}",
+    "botText": "by {state}",
+    "iconName": "spotify.png"
+  },
+  "Visual Studio Code": {
+    "topText": "Coding in VSCode",
+    "midText": "{details}",
+    "botText": "{state}",
+    "iconName": "vscode.png"
+  }
+}

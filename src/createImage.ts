@@ -6,7 +6,14 @@ interface Callback {
   (buffer: string): void;
 }
 
-async function createImage(songName: string, songArtist: string, cb: Callback) {
+interface Status {
+  iconDir: string;
+  topText: string;
+  midText: string;
+  botText: string;
+}
+
+async function createImage(status: Status, cb: Callback) {
   const canvas = createCanvas(1000, 500);
   const ctx = canvas.getContext("2d");
   registerFont(path.join(process.cwd(), "assets/code/Roboto-Regular.ttf"), {
@@ -20,26 +27,34 @@ async function createImage(songName: string, songArtist: string, cb: Callback) {
   const background = await loadImage(
     path.join(process.cwd(), "assets/user/background.png")
   );
-  ctx.drawImage(background, 0, 0);
-
-  // Draw StatusBar
   const statusBar = await loadImage(
     path.join(process.cwd(), "assets/code/StatusBar.png")
   );
+  const icon = await loadImage(
+    path.join(process.cwd(), `assets/code/icons/${status.iconDir}`)
+  );
+  ctx.drawImage(background, 0, 0);
+
+  // Draw StatusBar
   ctx.drawImage(statusBar, 55, 89);
+  ctx.drawImage(icon, 84, 107);
   // Write Status
   ctx.font = '24px "RobotoM"';
   ctx.fillStyle = "#ffffff";
-  ctx.fillText("Now Playing:", 247, 146);
+  ctx.fillText(status.topText, 247, 146);
   ctx.fillText(
-    `by ${songArtist.substring(0, 30)}${songArtist.length > 30 ? "..." : ""}`,
+    `${status.botText.substring(0, 30)}${
+      status.botText.length > 30 ? "..." : ""
+    }`,
     247,
     216
   );
 
   ctx.font = '36px "Roboto"';
   ctx.fillText(
-    `${songName.substring(0, 30)}${songName.length > 30 ? "..." : ""}`,
+    `${status.midText.substring(0, 30)}${
+      status.midText.length > 30 ? "..." : ""
+    }`,
     247,
     186
   );
@@ -62,4 +77,4 @@ async function createBlank(cb: Callback) {
   cb(buffer);
 }
 
-export { createImage, createBlank };
+export { createImage, createBlank, Status };
