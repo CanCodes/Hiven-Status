@@ -36,6 +36,6 @@ This small project let's you display your status on your Hiven Header image usin
 
 ## Special Thanks To
 
-- TheHacerCoding
+- TheHackerCoding
 
 for their contribution.
